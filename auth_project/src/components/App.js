@@ -22,10 +22,10 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/home" element={<HomePage />} />
-              <Route element={<PrivateRoute/>}>
+              <Route element={<PrivateRoute component={Dashboard}/>}>
                 <Route path="/dashboard" element={<Dashboard />} />
               </Route>
-              <Route element={<PrivateRoute/>}>
+              <Route element={<PrivateRoute component={UpdateProfile}/>}>
                 <Route path="/update-profile" element={<UpdateProfile />} />
               </Route>
               <Route path="/signup" element={<Signup/>} />

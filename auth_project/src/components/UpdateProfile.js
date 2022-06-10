@@ -10,7 +10,7 @@ export default function UpdateProfile() {
   const { currentUser, updatePassword, updateEmail } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const history = useNavigate()
+  const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -31,7 +31,7 @@ export default function UpdateProfile() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/dashboard")
+        navigate("/dashboard")
       })
       .catch(() => {
         setError("Failed to update account")
@@ -80,7 +80,7 @@ export default function UpdateProfile() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <Link to="/logged-in">Cancel</Link>
+        <Link to="/dashboard">Cancel</Link>
       </div>
     </>
   )
