@@ -1,0 +1,7 @@
+npx create-react-app auth-project
+cd auth-project
+npm i firebase
+npm i bootstrap react-bootstrap
+npm i react-router-dom
+
+write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
