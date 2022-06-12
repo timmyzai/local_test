@@ -3,28 +3,40 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link } from "react-router-dom"
 
-export default function ForgotPassword() {
-  const emailRef = useRef()
-  const { resetPassword } = useAuth()
-  const [error, setError] = useState("")
-  const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
+export default function ForgotPassword(){
+  const emailRef = useRef();
+  const { resetPassword } = useAuth();
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit(e){
+    e.preventDefault();
 
     try {
-      setMessage("")
-      setError("")
-      setLoading(true)
-      await resetPassword(emailRef.current.value)
-      setMessage("Check your inbox for further instructions")
+      setMessage("");
+      setError("");
+      setLoading(true);
+      await resetPassword(emailRef.current.value);
+      setMessage("Check your inbox for further instructions");
     } catch {
-      setError("Failed to reset password")
+      setError("Failed to reset password");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
+
+  // async function handleEmail(){
+  //   try {
+  //     setError("")
+  //     setLoading(true)
+  //     await sendEmail()
+  //   } catch {
+  //     setError("Failed to send")
+  //   }
+
+  //   setLoading(false)
+  // }
 
   return (
     <>
@@ -38,7 +50,7 @@ export default function ForgotPassword() {
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
             </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button disabled={loading} className="w-100 mt-2 mb-2" type="submit">
               Reset Password
             </Button>
           </Form>
@@ -49,6 +61,7 @@ export default function ForgotPassword() {
       </Card>
       <div className="w-100 text-center mt-2">
         Need an account? <Link to="/signup">Sign Up</Link>
+        {/* <button onClick={handleEmail}>Send Email with Callable Function</button> */}
       </div>
     </>
   )

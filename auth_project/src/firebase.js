@@ -1,14 +1,18 @@
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import 'firebase/compat/auth'
+import { GoogleAuthProvider } from 'firebase/auth';
+import 'firebase/compat/functions';
 
 const app = firebase.initializeApp({
-    apiKey: "AIzaSyAJXUtekHYNDbghPn_pJ6S57n5wFWB5JQ4",
-    authDomain: "auth-development-b0a61.firebaseapp.com",
-    projectId: "auth-development-b0a61",
-    storageBucket: "auth-development-b0a61.appspot.com",
-    messagingSenderId: "510849277406",
-    appId: "1:510849277406:web:f3db2968c33d8a4fe0114f"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
   })
-
-export const auth = app.auth()
-export default app
+  
+export const googleProvider = new GoogleAuthProvider();
+export const auth = app.auth();
+export default app;
+export const functions = firebase.functions();

@@ -3,40 +3,40 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 
-export default function Signup() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { signup, currentUser } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+export default function Signup(){
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit(e){
+    e.preventDefault();
 
-    if (passwordRef.current.value.length < 6) {
-      return setError("Password should be at least 6 characters")
+    if (passwordRef.current.value.length < 6){
+      return setError("Password should be at least 6 characters");
     }
 
-    if (passwordConfirmRef.current.value.length < 6) {
-      return setError("Password Confirmation should be at least 6 characters")
+    if (passwordConfirmRef.current.value.length < 6){
+      return setError("Password Confirmation should be at least 6 characters");
     }
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+    if (passwordRef.current.value !== passwordConfirmRef.current.value){
+      return setError("Passwords do not match");
     }
 
     try {
-      setError("")
-      setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
-      navigate("/dashboard")
+      setError("");
+      setLoading(true);
+      await signup(emailRef.current.value, passwordRef.current.value);
+      navigate("/dashboard");
     } catch {
-      setError("Failed to create an account")
+      setError("Failed to create an account");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
