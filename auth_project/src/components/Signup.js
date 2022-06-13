@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-import {storeLogInTime} from "../db/Database"
+import {storeLastLogInTime} from "../db/Database"
 
 export default function Signup(){
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, sendVerifyEmail, currentUser } = useAuth();
+  const { signup, sendVerifyEmail } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,38 +16,43 @@ export default function Signup(){
   async function handleSubmit(e){
     e.preventDefault();
 
-    if (passwordRef.current.value.length < 6){
+    let password = passwordRef.current.value;
+    let confirm_password = passwordConfirmRef.current.value;
+    let email = emailRef.current.value
+
+    if (password.length < 6){
       return setError("Password should be at least 6 characters");
     }
 
-    if (passwordConfirmRef.current.value.length < 6){
+    if (confirm_password.length < 6){
       return setError("Password Confirmation should be at least 6 characters");
     }
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value){
+    if (password !== confirm_password){
       return setError("Passwords do not match");
     }
 
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(email, password);
+      storeLastLogInTime();
       navigate("/dashboard");
     } catch {
       setError("Failed to create an account");
     }
 
-    storeLogInTime();
-    sendEmail();
+    tryToSendEmail();
 
     setLoading(false);
   }
 
-  async function sendEmail(){
+  async function tryToSendEmail(){
     try {
       await sendVerifyEmail();
+      console.log("Verification email has been sent.");
     } catch {
-      setError("Failed to send email.");
+      console.log("Failed to send email.");
     }
   }
 

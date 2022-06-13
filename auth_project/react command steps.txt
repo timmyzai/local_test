@@ -4,6 +4,7 @@ npm i firebase
 npm i bootstrap react-bootstrap
 npm i react-router-dom
 npm i react-google-button
+npm install -g firebase-tools
 
 write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 
@@ -36,3 +37,4 @@ write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 - study firebase - user metadata, firestore (done)
 - store/read metadata last log in time to firebase database (done)
 - add if user log in with google for the 1st time, then store to database (done)
+- deploy to live (done)

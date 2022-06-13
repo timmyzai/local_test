@@ -3,22 +3,6 @@ import { db, auth } from "../firebase"
 
 export let userEmailArr = [];
 
-export async function getUserLogInTime(){
-    try {
-      const userCollection = collection(db, "users");
-      getDocs(userCollection)
-      .then((response) => {
-        const users = response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-        }))
-        console.log(users.map(x => x.data.user_last_login_time));
-      });
-    } catch (error) {
-      console.error("Error reading document: ", error);
-    };
-  }
-
 export async function getUserEmail(){
     try {
       const userCollection = collection(db, "users");
@@ -35,7 +19,7 @@ export async function getUserEmail(){
     };
   }
 
-export async function storeLogInTime(){
+export async function storeLastLogInTime(){
     try {
       const docRef = await addDoc(collection(db, "users"), {
         user_email: auth.currentUser.email,

@@ -3,53 +3,75 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate  } from "react-router-dom"
 import {GoogleButton} from "react-google-button"
-import {getUserEmail, userEmailArr, storeLogInTime} from "../db/Database"
-import { auth } from "../firebase"
+import {storeLastLogInTime} from "../db/Database"
+import { collection, getDocs } from "firebase/firestore"; 
+import { db, auth } from "../firebase"
 
 export default function Login(){
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, googleLogin } = useAuth();
+  const { login, googleLogin, sendVerifyEmail } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  let isUserExisted = false;
+  let isGoogleLogin = false;
 
   async function handleSubmit(e){
     e.preventDefault();
-    setError("");
-
-    try {
-      setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      navigate("/dashboard");
-    } catch {
-      setError("Failed to log in");
-    }
-
-    setLoading(false);
+    tryToLogIn();
   }
 
   async function handleGoogleLogin(){
-    setError("");
+    isGoogleLogin = true;
+    tryToLogIn();
+  }
 
+  async function tryToLogIn(){
+    setError("");
     try {
       setLoading(true);
-      await googleLogin();
+      if(isGoogleLogin){
+        await googleLogin();
+        
+      } else {
+        await login(emailRef.current.value, passwordRef.current.value);
+      }
+      sendMail();
+      storeLastLogInTime();
       navigate("/dashboard");
     } catch {
       setError("Failed to log in");
     }
-
-    try {
-      await getUserEmail();
-    } catch {
-      setError("Failed to get user data from database.");
-    }
-
-    const isUserExisted = userEmailArr.includes(auth.currentUser.email);
-    if(!isUserExisted){storeLogInTime()};
-
+    
     setLoading(false);
+  }
+
+  async function sendMail(){
+    try {
+      const userCollection = collection(db, "users");
+      getDocs(userCollection)
+      .then((response) => {
+        const users = response.docs.map(doc => ({
+          data: doc.data(),
+          id: doc.id,
+        }))
+        isUserExisted = users.map(x => x.data.user_email).includes(auth.currentUser.email);
+
+        !isUserExisted ? tryToSendEmail() : console.log("User Existed");
+      });
+    } catch (error) {
+      console.error("Error reading data from firestore: ", error);
+    };
+  }
+
+  async function tryToSendEmail(){
+    try {
+      await sendVerifyEmail();
+      console.log("Verification email has been sent.");
+    } catch {
+      console.log("Failed to send email.");
+    }
   }
 
   return (
@@ -70,7 +92,7 @@ export default function Login(){
             <Button disabled={loading} className="w-100 mt-2 mb-2" type="submit">
               Log In
             </Button>
-            <GoogleButton className="w-100" onClick={handleGoogleLogin}/>
+            <GoogleButton className="w-100" style={{borderRadius:"2.5px"}} onClick={handleGoogleLogin}/>
           </Form>
           <div className="w-100 text-center mt-3">
             <Link to="/forgot-password">Forgot Password?</Link>
