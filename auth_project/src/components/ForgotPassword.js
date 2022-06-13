@@ -12,31 +12,20 @@ export default function ForgotPassword(){
 
   async function handleSubmit(e){
     e.preventDefault();
+    
+    setMessage("");
+    setError("");
 
     try {
-      setMessage("");
-      setError("");
       setLoading(true);
       await resetPassword(emailRef.current.value);
-      setMessage("Check your inbox for further instructions");
+      setMessage("Reset Password Email Has Been Sent.");
     } catch {
       setError("Failed to reset password");
     }
 
     setLoading(false);
   }
-
-  // async function handleEmail(){
-  //   try {
-  //     setError("")
-  //     setLoading(true)
-  //     await sendEmail()
-  //   } catch {
-  //     setError("Failed to send")
-  //   }
-
-  //   setLoading(false)
-  // }
 
   return (
     <>
@@ -61,7 +50,6 @@ export default function ForgotPassword(){
       </Card>
       <div className="w-100 text-center mt-2">
         Need an account? <Link to="/signup">Sign Up</Link>
-        {/* <button onClick={handleEmail}>Send Email with Callable Function</button> */}
       </div>
     </>
   )

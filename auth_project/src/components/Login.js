@@ -3,6 +3,8 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate  } from "react-router-dom"
 import {GoogleButton} from "react-google-button"
+import {getUserEmail, userEmailArr, storeLogInTime} from "../db/Database"
+import { auth } from "../firebase"
 
 export default function Login(){
   const emailRef = useRef();
@@ -14,9 +16,9 @@ export default function Login(){
 
   async function handleSubmit(e){
     e.preventDefault();
+    setError("");
 
     try {
-      setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       navigate("/dashboard");
@@ -28,14 +30,24 @@ export default function Login(){
   }
 
   async function handleGoogleLogin(){
+    setError("");
+
     try {
-      setError("");
       setLoading(true);
       await googleLogin();
       navigate("/dashboard");
     } catch {
       setError("Failed to log in");
     }
+
+    try {
+      await getUserEmail();
+    } catch {
+      setError("Failed to get user data from database.");
+    }
+
+    const isUserExisted = userEmailArr.includes(auth.currentUser.email);
+    if(!isUserExisted){storeLogInTime()};
 
     setLoading(false);
   }

@@ -9,18 +9,21 @@ export default function ChangePassword(){
   const passwordConfirmRef = useRef();
   const { currentUser, updatePassword } = useAuth();
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   function handleSubmit(e){
     e.preventDefault();
+    setError("");
+    setMessage("");
+    
     if (passwordRef.current.value !== passwordConfirmRef.current.value){
       return setError("Passwords do not match");
     }
 
     const promises = [];
     setLoading(true);
-    setError("");
 
     if (passwordRef.current.value){
       promises.push(updatePassword(passwordRef.current.value));
@@ -28,10 +31,10 @@ export default function ChangePassword(){
 
     Promise.all(promises)
       .then(() => {
-        navigate("/dashboard")
+        setMessage("Password has been changed.");
       })
       .catch(() => {
-        setError("Failed to update account")
+        setError("Failed to change password.")
       })
       .finally(() => {
         setLoading(false)
@@ -44,6 +47,7 @@ export default function ChangePassword(){
         <Card.Body>
           <h2 className="text-center mb-4">Change Password</h2>
           {error && <Alert variant="danger">{error}</Alert>}
+          {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

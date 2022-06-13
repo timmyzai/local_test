@@ -2,12 +2,13 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
+import {storeLogInTime} from "../db/Database"
 
 export default function Signup(){
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { signup, sendVerifyEmail, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -36,7 +37,18 @@ export default function Signup(){
       setError("Failed to create an account");
     }
 
+    storeLogInTime();
+    sendEmail();
+
     setLoading(false);
+  }
+
+  async function sendEmail(){
+    try {
+      await sendVerifyEmail();
+    } catch {
+      setError("Failed to send email.");
+    }
   }
 
   return (
@@ -58,7 +70,7 @@ export default function Signup(){
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button disabled={loading} className="w-100 mt-3" type="submit">
               Sign Up
             </Button>
           </Form>
