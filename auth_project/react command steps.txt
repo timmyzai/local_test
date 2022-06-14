@@ -6,6 +6,9 @@ npm i react-router-dom
 npm i react-google-button
 npm install -g firebase-tools
 
+npm run build
+fierbase deploy
+
 write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 
 ---Self Note---

@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate  } from "react-router-dom"
-import {GoogleButton} from "react-google-button"
-import {storeLastLogInTime} from "../db/Database"
-import { collection, getDocs } from "firebase/firestore"; 
+import { GoogleButton } from "react-google-button"
+import { storeLastLogInTime } from "../db/Database"
+import { collection, getDocs } from "firebase/firestore"
 import { db, auth } from "../firebase"
 
 export default function Login(){
@@ -14,7 +14,6 @@ export default function Login(){
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  let isUserExisted = false;
   let isGoogleLogin = false;
 
   async function handleSubmit(e){
@@ -33,7 +32,6 @@ export default function Login(){
       setLoading(true);
       if(isGoogleLogin){
         await googleLogin();
-        
       } else {
         await login(emailRef.current.value, passwordRef.current.value);
       }
@@ -47,30 +45,29 @@ export default function Login(){
     setLoading(false);
   }
 
-  async function sendMail(){
+  function sendMail(){
     try {
-      const userCollection = collection(db, "users");
-      getDocs(userCollection)
+      getDocs(collection(db, "users"))
       .then((response) => {
-        const users = response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-        }))
-        isUserExisted = users.map(x => x.data.user_email).includes(auth.currentUser.email);
-
-        !isUserExisted ? tryToSendEmail() : console.log("User Existed");
+        isUserExisted(response) ? console.log("User Existed") : tryToSendEmail();
       });
     } catch (error) {
       console.error("Error reading data from firestore: ", error);
     };
-  }
 
-  async function tryToSendEmail(){
-    try {
-      await sendVerifyEmail();
-      console.log("Verification email has been sent.");
-    } catch {
-      console.log("Failed to send email.");
+    const isUserExisted = (collection) => {
+      const usersEmails = collection.docs.map(doc => doc.data().user_email);
+  
+      return usersEmails.includes(auth.currentUser.email);
+    }
+
+    async function tryToSendEmail(){
+      try {
+        await sendVerifyEmail();
+        console.log("Verification email has been sent.");
+      } catch {
+        console.log("Failed to send email.");
+      }
     }
   }
 
