@@ -7,7 +7,9 @@ npm i react-google-button
 npm install -g firebase-tools
 
 npm run build
-fierbase deploy
+firebase login
+firebase init
+firebase deploy
 
 write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 
@@ -41,3 +43,8 @@ write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 - store/read metadata last log in time to firebase database (done)
 - add if user log in with google for the 1st time, then store to database (done)
 - deploy to live (done)
+
+14/06/2022
+- add update document in database file (done)
+- refactor code (done)
+- final test (done)
