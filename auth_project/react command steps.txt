@@ -1,1 +1,43 @@
-hello world
+npx create-react-app auth-project
+cd auth-project
+npm i firebase
+npm i bootstrap react-bootstrap
+npm i react-router-dom
+npm i react-google-button
+npm install -g firebase-tools
+
+npm run build
+fierbase deploy
+
+write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
+
+---Self Note---
+
+08/06/2022
+- create basic react project (done)
+- configure github (done)
+- create firebase account (done)
+
+09/06/2022
+- study firebase authentication sdk - basic login (done)
+- study React(syntax, AuthContext, ...) && .env.local (done)
+
+10/06/2022
+- create all pages needed, set up routes (done)
+- add firebase authentication to the project (done)
+
+11/06/2022
+- add google login (done)
+- add google login icon (done)
+
+12/06/2022
+- study firebase - sending email
+- add different display between google user and user (done)
+- add react google button (done)
+
+13/06/2022
+- reset password email and user verification email (done)
+- study firebase - user metadata, firestore (done)
+- store/read metadata last log in time to firebase database (done)
+- add if user log in with google for the 1st time, then store to database (done)
+- deploy to live (done)
