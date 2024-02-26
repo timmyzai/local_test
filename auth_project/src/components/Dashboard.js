@@ -47,16 +47,16 @@ export default function Dashboard() {
         jsonpCallbackFunction: 'jQuery191048209435151745206_1708922802557'
       });
       const data = await response.json();
-
+      console.log(data)
       const transformedData = data.datamasa.map(item => ({
         TIMEPLAYTABLE: item.TIMEPLAYTABLE,
         AVAILABLE: item.STATUS === "" ? "Available" :
-          item.STATUS === "2" ? "Booked" :
-            item.STATUS === "3" ? "Pending Payment" :
+          item.STATUS === "2" ? "Pending Payment" :
+            item.STATUS === "3" ? "Booked" :
               item.STATUS === "70" ? "Not Available" :
                 "Unknow Status"
       }));
-
+      console.log(transformedData);
       setBookingData(transformedData);
     } catch (error) {
       console.error("Failed to fetch booking data", error);
