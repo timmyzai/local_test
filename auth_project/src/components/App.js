@@ -8,6 +8,7 @@ import Signup from "./Signup"
 import ForgotPassword from "./ForgotPassword"
 import ChangePassword from "./ChangePassword"
 import PrivateRoute from "./PrivateRoute"
+import 'react-datepicker/dist/react-datepicker.css';
 
 function App(){
   return (
