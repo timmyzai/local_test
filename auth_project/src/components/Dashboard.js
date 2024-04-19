@@ -3,6 +3,7 @@ import { Card, Button, Alert, Collapse, Container, Row, Col } from 'react-bootst
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import DbklSearchForm from './DbklSearch';
+import { List } from 'react-bootstrap-icons';
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -28,10 +29,10 @@ export default function Dashboard() {
     <Container>
       <Row className="justify-content-md-center">
         <Col xs={12} md={10} className="dashboard-container">
-          <div className="d-flex justify-content-between align-items-center p-2">
-            <h3>Dashboard</h3>
-            <Button variant="outline-primary" onClick={() => setOpen(!open)} aria-controls="profile-options" aria-expanded={open}>
-              Profile
+          <div className="dashboard-top">
+            <h3 className="dashboard-heading">Dashboard</h3>
+            <Button className="dashboard-button" onClick={() => setOpen(!open)} aria-controls="profile-options" aria-expanded={open}>
+              <List />
             </Button>
           </div>
 

@@ -101,13 +101,13 @@ function DbklSearchForm() {
                                 variant={location === 'P.K Setiawangsa' ? "primary" : "outline-primary"}
                                 onClick={() => setLocation('P.K Setiawangsa')}
                             >
-                                Setiawangsa
+                                P.K Setiawangsa
                             </Button>
                             <Button
                                 variant={location === 'P.K Semarak' ? "primary" : "outline-primary"}
                                 onClick={() => setLocation('P.K Semarak')}
                             >
-                                Semarak
+                                P.K Semarak
                             </Button>
                         </div>
                     </Col>
