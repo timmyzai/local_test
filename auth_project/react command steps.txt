@@ -48,3 +48,6 @@ write import 'bootstrap/dist/css/bootstrap.min.css' in index.js
 - add update document in database file (done)
 - refactor code (done)
 - final test (done)
+
+19/06/2024
+- Remember to add .env.local (Because it is git ignored)

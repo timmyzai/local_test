@@ -134,3 +134,15 @@ button[variant="outline-primary"] {
         margin-bottom: 10px; /* Adds spacing when stacked */
     }
 }
+/* Ensure buttons align nicely on window screens*/
+@media (min-width: 768px) {
+    .d-flex {
+        flex-direction: row; /* Align buttons in a row */
+        flex-wrap: wrap; /* Allow buttons to wrap to next line if necessary */
+        justify-content: space-around; /* Distribute buttons evenly */
+    }
+    .d-flex > Button {
+        flex: 1 0 auto; /* Allow buttons to grow and shrink as needed, but don't let them fill the entire row */
+        margin: 0.5rem; /* Add some margin around each button */
+    }
+}
